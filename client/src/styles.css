@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import '~ngx-bootstrap/datepicker/bs-datepicker.css';
+/*@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';*/
+
+
+
+
+/*
+	<h4 style="color: #181123; margin-top: 10px; margin-left: 0px;">select Month</h4>
+											<input type="text" id="Date1" [(ngModel)]="modelDate"
+											class="form-control"
+											[minDate]="minDate"
+											[maxDate]="maxDate"
+											bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (change)="datePicker($event)" (onShown)="onOpenCalendar($event)">*/

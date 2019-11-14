@@ -1,0 +1,47 @@
+.main-content {
+    position: relative;
+    width: calc( 100% - 250px);
+    float: right;
+}
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .main-content {
+    width: 100%;
+  }
+}
+.button {
+  border: 0;
+  /*background: #0087cc;*/
+  border-radius: 4px;
+  box-shadow: 0	 5px 0 #11cdef;
+  /*color: #fff;*/
+  cursor: pointer;
+  font: inherit;
+  margin: 0;
+  outline: 0;
+  padding: 12px 20px;
+  transition: all .1s linear;
+}
+.button:active {
+  box-shadow: 0 2px 0 #11cdef;
+  transform: translateY(5px);
+}
+.viewMore{
+  cursor: pointer;
+}
+.viewMore:hover{
+  color: red;
+  cursor: pointer;
+}
+.custom-input{
+  outline: none;
+  border: 0;
+  border-bottom: 1px  solid blue !important;
+}
+.nameClick{
+  outline: none;
+  cursor: pointer;
+}
+.nameClick:hover{
+  color: red;
+}

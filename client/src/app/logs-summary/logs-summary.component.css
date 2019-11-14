@@ -1,0 +1,44 @@
+.main-content {
+    position: relative;
+    width: calc( 100% - 250px);
+    float: right;
+}
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .main-content {
+    width: 100%;
+  }
+}
+.viewMore{
+  cursor: pointer;
+}
+.viewMore:hover{
+  color: red;
+  cursor: pointer;
+}
+.custom-input{
+  outline: none;
+  border: 0;
+  border-bottom: 1px  solid #1f3a68 !important;
+  /*background-color: #172b4d !important;*/
+  /*color : white;*/
+}
+::placeholder {
+  /*color: white;*/
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+ color: red;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+ color: red;
+}
+.nameClick{
+  outline: none;
+  cursor: pointer;
+}
+.nameClick:hover{
+  color: red;
+}

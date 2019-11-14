@@ -1,0 +1,26 @@
+.main-content {
+    position: relative;
+    width: calc( 100% - 250px);
+    float: right;
+}
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .main-content {
+    width: 100%;
+  }
+}
+.card-shadow{
+	box-shadow: 0 0 10px gray;
+}
+.custom-input{
+  outline: none;
+  border: 0;
+  border-bottom: 1px  solid blue !important;
+}
+.viewMore{
+  cursor: pointer;
+}
+.viewMore:hover{
+  color: red;
+  cursor: pointer;
+}
