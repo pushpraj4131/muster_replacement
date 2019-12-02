@@ -3,6 +3,7 @@ import { UserService } from '../services/user.service';
 import { FilterPipe } from '../filter.pipe';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../services/login.service';
+declare var $;
 
 @Component({
 	selector: 'app-all-users',
@@ -25,6 +26,18 @@ export class AllUsersComponent implements OnInit {
 		) { }
 
 	ngOnInit() {
+		var branchName = localStorage.getItem('branchSelected');
+		$(document).ready(function(){
+			if(branchName == 'rajkot'){
+				$("#rajkot").addClass( "active");
+				$("#ahemdabad").removeClass("active");
+			}else{
+				console.log("hey");
+				$("#ahemdabad").addClass("active");
+				$("#rajkot").removeClass("active");
+			}
+
+		});
 		this.userInfo = JSON.parse(localStorage.getItem("currentUser"));
 		this.getAllUsers();
 	}
@@ -51,5 +64,11 @@ export class AllUsersComponent implements OnInit {
 		console.log("logiut ccalled");
 		this._loginService.logout();
 		this.router.navigate(['login']);
+	}
+	branchSelector(branchName){
+		console.log(branchName);
+		localStorage.setItem('branchSelected' , branchName);
+		this.ngOnInit();
+		// console.log("Branch name =====> " , localStorage.getItem('branchSelected'));
 	}
 }

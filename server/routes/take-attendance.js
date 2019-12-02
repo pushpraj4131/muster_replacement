@@ -9,7 +9,7 @@ router.post('/get-attendance-by-id' , takeAttendanceController.getAttendanceById
 router.post('/get-last-five-days-logs' , takeAttendanceController.getAttendanceById);
 router.post('/get-current-month-logs-count' , takeAttendanceController.getCurrentMonthLogCount);
 router.post('/get-current-month-logs-by-page' , takeAttendanceController.getCurrentMonthLogByPage);
-router.get('/get-todays-day-logs' , takeAttendanceController.getTodaysattendance);
+router.post('/get-todays-day-logs' , takeAttendanceController.getTodaysattendance);
 router.post('/get-report-by-id' , takeAttendanceController.getReportById);
 router.post('/get-report-by-flag' , takeAttendanceController.getReportByFlag);
 //imported

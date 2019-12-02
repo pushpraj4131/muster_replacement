@@ -113,15 +113,15 @@ export class UserDetailComponent implements OnInit {
 		this._logService.getLastFiveDaysAttendance(this.userId).subscribe(async (response:any) => {
 			console.log("last five days response" , response);
 			if(response.foundLogs){
-			// 	// await this.properFormatDate(response.foundLogs);
-			// 	this.totalHoursToWork = response.TotalHoursToComplete; 
-			// 	this.totalHoursWorked = response.TotalHoursCompleted; 
-			// 	console.log("total hours attednent ====>" , this.totalHoursToWork);
-			// 	console.log("total hours to attendnace====>" , this.totalHoursWorked);
-			// 	this.fiveDaysLogs = response.foundLogs;
-			// 	this.logs = [];
-			// }else if(response.length == 0){
-			// 	this.fiveDaysLogs = [];
+				// await this.properFormatDate(response.foundLogs);
+				this.totalHoursToWork = response.TotalHoursToComplete; 
+				this.totalHoursWorked = response.TotalHoursCompleted; 
+				console.log("total hours attednent ====>" , this.totalHoursToWork);
+				console.log("total hours to attendnace====>" , this.totalHoursWorked);
+				this.fiveDaysLogs = response.foundLogs;
+				this.logs = [];
+			}else if(response.length == 0 && !response.foundLogs){
+				this.fiveDaysLogs = [];
 			}else{
 				this.fiveDaysLogs = [];
 			}
@@ -133,6 +133,7 @@ export class UserDetailComponent implements OnInit {
 	resetForm(){
 		this.search = false;
 		(<HTMLInputElement>document.getElementById("reportrange")).value = "";
+
 	}
 	openModel(index){
 		console.log("hey" , index);

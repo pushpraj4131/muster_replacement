@@ -7,7 +7,8 @@ var UserSchema = new Schema({
 	name : {type: String},
 	password: {type: String},
 	designation: {type: String},
-	userRole : {type : String , default: 'employee'}
+	userRole : {type : String , default: 'employee'},
+	branch : {type : String , default: null}
 });
  
 

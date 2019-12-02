@@ -39,13 +39,24 @@ export class DashboardComponent implements OnInit {
 		private router: Router , public _loginService: LoginService , public _filterPipe: FilterPipe) { }
 
 	ngOnInit() {
-
+		var branchName = localStorage.getItem('branchSelected');
+		// localStorage.setItem('branchSelected' , 'ahemdabad');
+		// console.log(branchName);
 		this.getUserIP(function(ip){
 			console.log(ip)
 		});
 		var hello ;
 		var self = this;
 		$(document).ready(function(){
+			if(branchName == 'rajkot'){
+
+				$("#rajkot").addClass( "active");
+				$("#ahemdabad").removeClass("active");
+			}else{
+				console.log("hey");
+				$("#ahemdabad").addClass("active");
+				$("#rajkot").removeClass("active");
+			}
 			$('[data-toggle="tooltip"]').tooltip();   
 		});
 		this.userInfo = JSON.parse(localStorage.getItem("currentUser"));
@@ -154,7 +165,6 @@ export class DashboardComponent implements OnInit {
 			this.presentCount = response.presentCount;
 			this.totalUsers = response.totalUser;
 			this.todaysAttendance = this.properFormatDate(response.data);
-			// this.todaysAttendance = response.data;
 			const data = JSON.stringify(this.todaysAttendance);
 			this.filteredData = JSON.parse(data);
 		} , (err) => {
@@ -211,5 +221,11 @@ export class DashboardComponent implements OnInit {
 			return obj.date = moment(obj.date).utc().format("DD/MM/YYYY");
 
 		});
+	}
+	branchSelector(branchName){
+		console.log(branchName);
+		localStorage.setItem('branchSelected' , branchName);
+		this.ngOnInit();
+		// console.log("Branch name =====> " , localStorage.getItem('branchSelected'));
 	}
 }

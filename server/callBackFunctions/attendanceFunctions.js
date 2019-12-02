@@ -116,7 +116,7 @@ const attendanceFunctions = {
 				if(!keys.includes(dateToMatch)){
 					console.log("dateToMatch" , dateToMatch)	
 					keys.push(dateToMatch);
-					tmp[dateToMatch] = "sunday";
+					tmp[dateToMatch] = "Sunday";
 				}
 			}
 		}else{
@@ -137,7 +137,7 @@ const attendanceFunctions = {
 						console.log("in if ==>" , moment(dateToMatch).format('DD-MM-YYYY'))
 						dateToMatch = moment(dateToMatch).format('DD-MM-YYYY');
 						keys.push(dateToMatch);
-						tmp[dateToMatch] = "sunday";
+						tmp[dateToMatch] = "Sunday";
 					}else{
 						dateToMatch = moment(dateToMatch).format('DD-MM-YYYY');
 						keys.push(dateToMatch);

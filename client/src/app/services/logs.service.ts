@@ -59,18 +59,20 @@ export class LogsService {
 
   //admin functions
   getTodaysAttendance(){
-    return this._http.get( config.baseApiUrl+"attendance/get-todays-day-logs");
-    // sdjfklsjdlkjfklsdf
-    // ksldflksjdlkfjlksd
-    // ksdlfkjsdkljfklsd
-    // klsdfjklsd
+    var body = {
+      "branch" : localStorage.getItem('branchSelected')
+    }
+    console.log("body in service " , body);
+    return this._http.post( config.baseApiUrl+"attendance/get-todays-day-logs" , body);
   }
   getLogsBySingleDate(data){
     console.log(data);
+    data['branch'] = localStorage.getItem('branchSelected');
     return this._http.post(config.baseApiUrl+"attendance/get-logs-by-single-date" , data);
   }
   getReportFlagWise(body){
     console.log(body);
+    body['branch'] = localStorage.getItem('branchSelected');
     return this._http.post( config.baseApiUrl+"attendance/get-report-by-flag" , body);
   }
 

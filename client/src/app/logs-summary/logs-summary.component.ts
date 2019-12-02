@@ -42,8 +42,18 @@ export class LogsSummaryComponent implements OnInit {
 		private router: Router , public _loginService: LoginService , public _filterPipe: FilterPipe) { }
 
 	ngOnInit() {
+		var branchName = localStorage.getItem('branchSelected');
 		var self = this;
 		$(document).ready(function(){
+			if(branchName == 'rajkot'){
+
+				$("#rajkot").addClass( "active");
+				$("#ahemdabad").removeClass("active");
+			}else{
+				console.log("hey");
+				$("#ahemdabad").addClass("active");
+				$("#rajkot").removeClass("active");
+			}
 			$(function() {
 
 				var start = moment().subtract(29, 'days');
@@ -257,5 +267,12 @@ export class LogsSummaryComponent implements OnInit {
 		return data = data.filter((obj)=>{
 			return obj.date = moment(obj.date).utc().format("DD/MM/YYYY");
 		});
+	}
+	branchSelector(branchName){
+		console.log(branchName);
+		localStorage.setItem('branchSelected' , branchName);
+		this.currentMonthLogs  = null;
+		this.ngOnInit();
+		// console.log("Branch name =====> " , localStorage.getItem('branchSelected'));
 	}
 }

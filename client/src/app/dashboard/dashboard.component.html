@@ -3,7 +3,16 @@
     <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
       <div class="container-fluid">
         <!-- Brand -->
-        <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="./index.html">Dashboard</a>
+        <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">Dashboard</a>
+        <!-- <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" >Dashboard1</a> -->
+        <ul  *ngIf="userInfo.userRole == 'admin'" class="nav nav-pills nav-fill flex-column flex-sm-row" id="tabs-text" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link mb-sm-3 mb-md-0 "  id="rajkot" data-toggle="tab" href="#tabs-text-1" role="tab" aria-controls="tabs-text-1" aria-selected="true" (click)="branchSelector('rajkot')">Rajkot</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link mb-sm-3 mb-md-0" id="ahemdabad" data-toggle="tab" href="#tabs-text-2" role="tab" aria-controls="tabs-text-2" aria-selected="false" (click)="branchSelector('ahemdabad')">Ahemdabad</a>
+          </li>
+        </ul>
         <ul class="navbar-nav align-items-center d-none d-md-flex">
           <li class="nav-item dropdown">
             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -173,8 +182,8 @@
                   </ng-container>
                   <ng-container *ngIf="userInfo.userRole == 'admin'">
                     <tr  *ngFor="let data of todaysAttendance | paginate:{itemsPerPage: 5, currentPage:p}; let i = index">
-                      <th scope="row" class="nameClick" [routerLink]="['/all-users/user-detail/' ,data.userId._id]">
-                        {{ data.userId.name }}
+                      <th scope="row" class="nameClick" [routerLink]="['/all-users/user-detail/' ,data.user[0]._id]">
+                        {{ data.user[0].name }}
                       </th>
                       <td>
                         {{data.day}}

@@ -36,6 +36,7 @@ export class UserReportComponent implements OnInit {
 	allLogs:any;
 	modelValue:any;
 	modelMessage:any;
+	monthDisplay : any;
 	constructor(
 		public _logsService: LogsService,
 		public _userService: UserService,
@@ -49,8 +50,22 @@ export class UserReportComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		var branchName = localStorage.getItem('branchSelected');
+		$(document).ready(function(){
+			if(branchName == 'rajkot'){
+				$("#rajkot").addClass( "active");
+				$("#ahemdabad").removeClass("active");
+			}else{
+				console.log("hey");
+				$("#ahemdabad").addClass("active");
+				$("#rajkot").removeClass("active");
+			}
+		});
 		this.reportForm.reset();
-
+		this.searchRecordDate = null;
+		this.foundRecordUser = null;
+		this.tableData = [];
+		this.tableHeader = [];
 		this.userInfo  = JSON.parse(localStorage.getItem("currentUser"));
 		this.getAllUsers();
 		this.myDateValue = new Date();
@@ -80,18 +95,24 @@ export class UserReportComponent implements OnInit {
 	getReport(value){
 		this.fullTimeWorked = 0;
 		this.lessTimeWorked = 0;
+		this.monthDisplay = moment(value.date).format('MMMM');
 		var newDate:any = moment(value.date).add(1 , 'days');
 		value['startDate'] = new Date(newDate).toISOString();
 		newDate =  moment(newDate).endOf('month')
 		value['endDate'] = new Date(newDate._d).toISOString();
+
 		delete value['date'];
 		console.log("value ==>" , value);
 		if(value.id == null){
 			value.id = 'All';
 		}
 		this._logsService.getReportFlagWise(value).subscribe(async(res:any)=>{
+			console.log("response ================>" , res);
 			this.isDisable = false;
-			if(!res.foundLogs){
+			if(res.length == 0){
+				console.log("No data found");
+			}
+			else if(!res.foundLogs){
 				this.logs = null;
 				this.searchRecordDate= null;
 				this.allEmployeeSearch = true;
@@ -99,6 +120,8 @@ export class UserReportComponent implements OnInit {
 				console.log("this.allLogs ===>" , res);
 				
 				this.allLogs = await this.formatResponse(this.allLogs);
+				this.tableData = [];
+				this.tableHeader = [];
 				for(let [key , value] of Object.entries(this.allLogs[0])){
 					this.tableHeader.push(key);
 					this.tableData.push(value);
@@ -106,7 +129,6 @@ export class UserReportComponent implements OnInit {
 				console.log("table header =++>",this.tableHeader);
 				console.log("table daat =+++>",this.tableData);
 			}else{
-
 				this.allEmployeeSearch = false;
 				res.foundLogs.forEach((data) => {
 					if(data.diffrence != '-'){
@@ -269,7 +291,7 @@ export class UserReportComponent implements OnInit {
 		switch (value){
 			case "Holiday or no working day":
 			return 'silver';
-			case 'sunday':
+			case 'Sunday':
 			return '#8c8cf366';
 		}	
 	}
@@ -323,5 +345,10 @@ export class UserReportComponent implements OnInit {
 		console.log("logiut ccalled");
 		this._loginService.logout();
 		this.router.navigate(['login']);
+	}
+	branchSelector(branchName){
+		console.log(branchName);
+		localStorage.setItem('branchSelected' , branchName);
+		this.ngOnInit();
 	}
 }

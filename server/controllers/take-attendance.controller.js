@@ -228,10 +228,50 @@ take_attendance.getLogByName = function(req , res){
 
 }
 
+//Done
 take_attendance.getLogBySingleDate = function(req , res){
-	// console.log(" ==========+++++>getLogBySingleDate " , new Date(req.body.firstDate).toISOString().split("T")[0] + "T18:30:00.000Z");
-	attendanceModel.find({ date :  new Date(req.body.firstDate).toISOString().split("T")[0] + "T18:30:00.000Z" })
-	.populate('userId')
+	console.log(" ==========+++++>getLogBySingleDate " , new Date(req.body.firstDate).toISOString().split("T")[0] + "T18:30:00.000Z");
+	var newDate = new Date(req.body.firstDate).toISOString().split("T")[0] + "T18:30:00.000Z";
+	console.log("new Date =====++>" , newDate , typeof newDate);
+	attendanceModel.aggregate([
+		{ $match: { date: new Date(newDate)} },
+		{
+			$lookup:
+			{
+				from: "users",
+				localField: "userId",
+				foreignField: "_id",
+				as: "user"
+			}
+		},
+		{
+			$addFields: {
+				user: {
+					$filter: {
+						input: "$user",
+						as: "comp",
+						cond: {
+							$eq: [ "$$comp.branch", req.body.branch ]
+						}
+					}
+				}
+			}
+		},
+		{
+			$addFields: {
+				length: {
+					$size : "$user"
+				}
+			}
+		},
+		{
+			$match : {
+				length : { 
+					$gt:  0
+				}
+			}
+		}
+	])
 	.exec((err , foundLogs)=>{
 		if(err){
 			res.send(err);
@@ -240,16 +280,55 @@ take_attendance.getLogBySingleDate = function(req , res){
 		}
 	});
 }
-
+//done below controller
 take_attendance.getTodaysattendance = function(req , res){
+	console.log("req . body ===>" , req.body.branch);
 	var newDate = new Date().toISOString().split("T")[0] + "T18:30:00.000Z";
-	attendanceModel.find({ date : newDate })
-	.populate('userId')
+	console.log("new Date" , newDate,typeof newDate ,new Date(newDate));
+	attendanceModel.aggregate([
+		{ $match: { date: new Date(newDate) } },
+		{
+			$lookup:
+			{
+				from: "users",
+				localField: "userId",
+				foreignField: "_id",
+				as: "user"
+			}
+		},
+		{
+			$addFields: {
+				user: {
+					$filter: {
+						input: "$user",
+						as: "comp",
+						cond: {
+							$eq: [ "$$comp.branch", req.body.branch ]
+						}
+					}
+				}
+			}
+		},
+		{
+			$addFields: {
+				length: {
+					$size : "$user"
+				}
+			}
+		},
+		{
+			$match : {
+				length : { 
+					$gt:  0
+				}
+			}
+		}
+	])
 	.exec((err , foundLogs)=>{
 		if(err){
 			res.send(err);
 		}else{
-			userModel.find({userRole : { $ne : 'admin' }})
+			userModel.find({userRole : { $ne : 'admin' } , branch : { $eq : req.body.branch }})
 			.exec((err , totalUser)=>{
 				if(err){
 					res.status(500).send(err);
@@ -333,6 +412,14 @@ take_attendance.getReportByFlag = function(req , res){
 		console.log("al")
 		attendanceModel.aggregate([
 		{
+			$match : {
+				date : { 
+					$gte:  new Date(req.body.startDate),
+					$lte: new Date(req.body.endDate)
+				}
+			} 
+		},
+		{
 			$sort: { 
 				"date": -1 
 			}
@@ -345,16 +432,34 @@ take_attendance.getReportByFlag = function(req , res){
 				foreignField: "_id",
 				as: "user"
 			}
-		},	
+		},
+		{
+			$addFields: {
+				user: {
+					$filter: {
+						input: "$user",
+						as: "comp",
+						cond: {
+							$eq: [ "$$comp.branch", req.body.branch ]
+						}
+					}
+				}
+			}
+		},
+		{
+			$addFields: {
+				length: {
+					$size : "$user"
+				}
+			}
+		},
 		{
 			$match : {
-				date : { 
-					$gte:  new Date(req.body.startDate),
-					$lte: new Date(req.body.endDate)
+				length : { 
+					$gt:  0
 				}
-			} 
-		},
-		
+			}
+		},	
 		{
 			$group: {
 				_id: { $dateToString: { format: "%d-%m-%Y", date: "$date" } },
@@ -384,8 +489,10 @@ take_attendance.getReportByFlag = function(req , res){
 				console.log(err);
 				return(res.status(500).send(err));
 			}else{
+				console.log("foundLogs of all employee " , foundLogs);
 				console.log(123);
-				foundLogs = await attendanceFunction.formatMonthAccordingToDays(foundLogs , req.body.startDate , req.body.endDate);
+				if(foundLogs.length != 0)
+					foundLogs = await attendanceFunction.formatMonthAccordingToDays(foundLogs , req.body.startDate , req.body.endDate);
 				res.status(200).send(foundLogs);
 			}
 		});

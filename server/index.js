@@ -10,6 +10,7 @@ const fs = require('fs');
 var BSONStream = require('bson-stream');
 
 const attendanceModel = require('./models/attendance.model');
+const userModel = require('./models/user.model');
 //import controllers
 const takeAttendanceRoutes = require('./routes/take-attendance.js')
 const userRoutes = require('./routes/user');
@@ -28,7 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 // const secureServer = https.createServer(credentials,app);
 // secureServer.listen(port);
 // console.log("secure server started on 4000");
-
+//18.130.243.169
 mongoose.connect('mongodb://18.130.243.169:27017/muster_logs', {useNewUrlParser: true , useUnifiedTopology: true}  )
 .then(() => console.log("Congratulations you are connected to Database"))
 .catch(err => console.log(err));
@@ -94,6 +95,26 @@ app.get("/bson-database" ,function(req , res){
 				console.log("ne ware ====>" , newData[0]);
 				attendanceModel.insertMany(newData , { ordered: false });
 				res.json({"newData" : newData , "length" : newData.length});
+			}
+		});
+	});
+	});
+app.get("/update-branch" ,function(req , res){
+	
+	fs.readFile('./database/attendences.json', (err, data) => {
+		if (err) throw err;
+		let student = JSON.parse(data);
+		userModel.find({userRole : { $ne : 'admin' }}).exec((err , foundUsers)=>{
+			if(err){
+				res.send(err);
+			}else{
+				foundUsers.forEach(async function(user , index){
+					user['branch'] = 'rajkot';
+					await userModel.findOneAndUpdate({_id : user._id} , user , {upsert : true , new : true});
+				});
+				
+				// attendanceModel.insertMany(newData , { ordered: false });
+				res.json({"newData" : foundUsers , "length" : foundUsers.length});
 			}
 		});
 	});

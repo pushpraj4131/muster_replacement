@@ -13,8 +13,8 @@ export class FilterPipe implements PipeTransform {
     console.log(items , searchText);
     return items.filter( it => {
     	console.log(it);
-      if(it.userId)
-    	  return it.userId.name.toLowerCase().includes(searchText);
+      if(it.user)
+    	  return it.user[0].name.toLowerCase().includes(searchText);
       else
         return it.name.toLowerCase().includes(searchText);
     });

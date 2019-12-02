@@ -50,7 +50,7 @@ userController.login = function(req,res){
 userController.getUsers = function(req,res){
 	console.log("Req. body of getUSes ===========>" , req.body);
 
-	userModel.find({ designation: {$ne: 'Admin'} } , 'name designation _id email' , (err,users)=>{
+	userModel.find({ designation: {$ne: 'Admin'}  , branch : {$eq : req.body.branch}} , 'name designation _id email' , (err,users)=>{
 		if(err){
 			res.status(400).send(err);
 		}
