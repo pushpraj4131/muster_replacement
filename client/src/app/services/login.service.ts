@@ -18,7 +18,8 @@ export class LoginService {
 	public get currentUserValue(): any {
         return this.currentUserSubject.value;
     }
-	loginUser(body){
+	loginUser(body , flag){
+		body['flag'] = flag;
 		return this._http.post(  config.baseApiUrl+"user/login" , body)
 		.pipe(map(user => {
 			console.log("login user=========>", user);
@@ -30,6 +31,10 @@ export class LoginService {
 
 			return user;
 		}));
+	}
+	getIpCliente(){
+		console.log("called this ==+>");
+		return this._http.get('https://api.ipify.org') 
 	}
 	logout() {
         // remove user from local storage to log user out

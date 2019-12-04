@@ -7,6 +7,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DatepickerModule,   BsDatepickerModule, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+// import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -47,7 +48,8 @@ setTheme('bs4'); // or 'bs4'
     NgSelectModule,
     BsDatepickerModule.forRoot(),
     DatepickerModule.forRoot() ,
-    BrowserAnimationsModule 
+    BrowserAnimationsModule,
+    // SweetAlert2Module 
   ],
   providers: [],
   bootstrap: [AppComponent]

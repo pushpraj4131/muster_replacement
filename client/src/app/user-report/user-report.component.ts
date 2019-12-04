@@ -37,6 +37,7 @@ export class UserReportComponent implements OnInit {
 	modelValue:any;
 	modelMessage:any;
 	monthDisplay : any;
+	// p: number = 1;
 	constructor(
 		public _logsService: LogsService,
 		public _userService: UserService,
@@ -79,6 +80,7 @@ export class UserReportComponent implements OnInit {
 			console.log("all users ===>" , res);
 			// res.unshift({'_id' : 'All' , 'name' : 'All Employee'})
 			this.developers = res;
+			console.log("this.developers" , this.developers);
 
 		},(err)=>{
 			console.log("error in getting all users ===>" , err);
@@ -327,6 +329,7 @@ export class UserReportComponent implements OnInit {
 		}
 	}
 	openModel(indexOfDate , indexOfDiffrence?){
+		// console.log("j =========+>" , indexOfDiffrence);
 		if(this.allLogs != null){
 			this.modelMessage = null;
 			console.log(indexOfDate , indexOfDiffrence , this.allLogs);

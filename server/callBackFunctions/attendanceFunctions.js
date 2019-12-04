@@ -1,5 +1,5 @@
 const moment = require('moment');
-
+var nodemailer = require('nodemailer');
 
 
 const attendanceFunctions = {
@@ -290,8 +290,36 @@ const attendanceFunctions = {
 		// console.log(newObject);
 
 		return newObject;
+	},
+	unauthorizedIPLoginEmail(userData){
+		var str = userData.name + " has logged in from Unauthorized IP address. Please take care of it";
+		console.log(str);
+		var transporter = nodemailer.createTransport({
+			service: 'gmail',
+			auth: {
+				user: 'pushpraj4132@gmail.com',
+				pass: 'LivingGod13@'
+			}
+		});
+
+		var mailOptions = {
+			from: 'pushpraj4132@gmail.com',
+			to : 'pushpraj4131@gmail.com',
+			// to: 'tirthrajbarot2394@gmail.com, shahmohitm@gmail.com, kval.chudasama11@gmail.com, dharamjeetchauhan8@gmail.com',
+			subject: 'Login from unauthorized IP in attendance portal',
+			text: str
+		};
+		transporter.sendMail(mailOptions, function(error, info){
+			if (error) {
+				console.log(error);
+			} else {
+				console.log('Email sent: ' + info.response);
+			}
+		});
 	}
 }
+
+
 
 
 

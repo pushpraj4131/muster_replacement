@@ -3,6 +3,7 @@ var userController = {};
 const ObjectId = require('mongodb').ObjectId;
 const lodash = require('lodash');
 const moment = require('moment');	
+var attendanceFunction = require('../callBackFunctions/attendanceFunctions');
 
 userController.signUp = function(req,res){
 	console.log("it works ======>" , req.body);
@@ -30,8 +31,8 @@ userController.signUp = function(req,res){
 	
 }
 userController.login = function(req,res){
-	console.log("Req. body of login ===========>" , req.body.email , "=======++> " , req.body.password);
-	userModel.findOne({email: req.body.email , password: req.body.password} , (err,foundUser)=>{
+	console.log("Req. body of login ===========>" , req.body.email , "=======++> " , req.body.password , req.body);
+	userModel.findOne({email: req.body.email , password: req.body.password} ,async (err,foundUser)=>{
 		if(err){
 			console.log("err ");
 			res.status(404).send(err);
@@ -43,6 +44,9 @@ userController.login = function(req,res){
 
 		}
 		else{
+			if(req.body.flag == false && foundUser.userRole != 'admin'){
+				await attendanceFunction.unauthorizedIPLoginEmail(foundUser);
+			}
 			res.status(200).send(foundUser);
 		}
 	});
@@ -50,11 +54,14 @@ userController.login = function(req,res){
 userController.getUsers = function(req,res){
 	console.log("Req. body of getUSes ===========>" , req.body);
 
-	userModel.find({ designation: {$ne: 'Admin'}  , branch : {$eq : req.body.branch}} , 'name designation _id email' , (err,users)=>{
+	userModel.find({ designation: {$ne: 'Admin'}  , branch : {$eq : req.body.branch}} , 'name designation _id email' )
+	.sort({name : 1})
+	.exec((err,users)=>{
 		if(err){
 			res.status(400).send(err);
 		}
 		else{
+			console.log("user",users);
 			res.status(200).send(users);
 		}
 	})

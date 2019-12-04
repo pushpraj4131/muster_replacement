@@ -184,11 +184,11 @@
 									</tr>
 								</thead>
 								<tbody class="font-weight-bold text-center">
-									<tr *ngFor="let Datedata of tableHeader; let i = index">
+									<tr *ngFor="let Datedata of tableHeader | paginate:{itemsPerPage: 10, currentPage:p}; let i = index">
 										<th class="zui-sticky-col" scope="row">
 											{{ Datedata }}
 										</th>
-										<ng-container *ngFor="let logsData of tableData[i]; let j = index">
+										<ng-container *ngFor="let logsData of tableData[10 * (p - 1) + i]  let j = index">
 											<td *ngIf="logsData.user" style="border: 1px solid black" class="tdHover" [ngStyle]="{'color':getColor(logsData.seconds)}"  (click)="openModel(Datedata , j)">
 												{{logsData.diffrence !== null ? logsData.diffrence : 'AB' }}
 											</td>
@@ -199,6 +199,9 @@
 									</tr>
 								</tbody>
 							</table>
+						</div>
+						<div class="card-footer py-4 ">
+							<pagination-controls   (pageChange)="p=$event"></pagination-controls>
 						</div>
 					</div>
 				</div>
