@@ -28,7 +28,7 @@
     "core-js": "^2.5.4",
     "daterangepicker": "^3.0.5",
     "getmac": "^1.4.6",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "moment": "^2.24.0",
     "mongoose-autopopulate": "^0.9.1",
     "ngx-bootstrap": "^5.2.0",
